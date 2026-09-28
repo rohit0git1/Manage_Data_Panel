@@ -6,3 +6,6 @@ dist
 .api
 .vercel
 .DS_Store
+AGENTS.md
+PROJECT_SPEC.md
+IMPLEMENTATION_PLAN.md
