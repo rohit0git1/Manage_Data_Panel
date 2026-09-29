@@ -155,10 +155,17 @@ export default function ManageData() {
   const activeCategory = filters.type;
 
   return (
-    <div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 sm:py-6">
-      <div className="mb-4">
-        <h1 className="text-xl font-semibold">Manage Data</h1>
-        <p className="text-sm text-gray-500">View, search and filter records stored in MongoDB</p>
+    <div className="mx-auto max-w-7xl px-3 py-5 sm:px-6 sm:py-7">
+      <div className="mb-5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Manage Data</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Search, filter and manage all imported records
+          </p>
+        </div>
+        <span className="hidden sm:inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-500 ring-1 ring-slate-200">
+          {pagination.total} {pagination.total === 1 ? "record" : "records"} total
+        </span>
       </div>
 
       {/* Toast */}
@@ -180,8 +187,9 @@ export default function ManageData() {
         <CategoryTabs active={activeCategory} onChange={handleCategory} />
       </div>
 
-      <div className="mb-3 flex flex-col gap-2 rounded-lg border bg-white p-3 sm:flex-row sm:flex-wrap sm:items-center">
+      <div className="mb-3 flex flex-col gap-3 rounded-xl border bg-white p-3.5 shadow-sm sm:flex-row sm:flex-wrap sm:items-center">
         <SearchBar value={filters.search} onChange={handleSearch} />
+        <div className="h-6 w-px hidden sm:block bg-slate-200" />
         <Filters filters={filters} onChange={handleFilterChange} onReset={resetFilters} />
       </div>
 
@@ -221,8 +229,8 @@ export default function ManageData() {
         </>
       )}
 
-      <p className="mt-6 text-center text-[11px] text-gray-400">
-        Table data is live from <span className="font-mono">GET /api/records</span> • Actions use <span className="font-mono">PUT / DELETE /api/records/:id</span>
+      <p className="mt-8 text-center text-xs text-slate-400">
+        Showing {pagination.total > 0 ? `1–${Math.min(pagination.limit, pagination.total)} of ${pagination.total}` : "0 records"} • Use search and filters to refine results
       </p>
 
       <EditModal
