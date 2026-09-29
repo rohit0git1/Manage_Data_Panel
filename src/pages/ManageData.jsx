@@ -97,9 +97,8 @@ export default function ManageData() {
       await updateRecord(editingRecord._id, formData);
       setEditingRecord(null);
       showToast("success", "Record updated successfully.");
-      // Refresh table and summary from DB
-      await fetchRecords();
-      await fetchSummary();
+      // Refresh table and summary in parallel
+      await Promise.all([fetchRecords(), fetchSummary()]);
       setSelected(new Set());
     } catch (err) {
       const msg = err.response?.data?.message || err.message || "Failed to update. Please try again.";
@@ -134,12 +133,12 @@ export default function ManageData() {
       setDeletingRecord(null);
       setDeletingId(null);
       setDeleting(false);
-      await fetchSummary();
       if (isLastOnPage) {
+        // Summary + page change will trigger records fetch
+        await fetchSummary();
         setPage(pagination.page - 1);
-        // fetchRecords will be triggered by useEffect on page change
       } else {
-        await fetchRecords();
+        await Promise.all([fetchRecords(), fetchSummary()]);
       }
       setSelected(new Set());
     } catch (err) {

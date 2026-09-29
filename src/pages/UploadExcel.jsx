@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import * as XLSX from "xlsx";
 import Dropzone from "../components/upload/Dropzone.jsx";
 import HeaderMapping from "../components/upload/HeaderMapping.jsx";
 import PreviewTable from "../components/upload/PreviewTable.jsx";
@@ -80,6 +79,7 @@ export default function UploadExcel() {
 
     try {
       const buffer = await selectedFile.arrayBuffer();
+      const XLSX = await import("xlsx");
       const workbook = XLSX.read(buffer, { type: "array", cellDates: true });
       if (!workbook.SheetNames.length) {
         setParseError("No worksheets found in file.");
